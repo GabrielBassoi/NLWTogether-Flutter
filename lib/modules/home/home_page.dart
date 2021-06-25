@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:nlw_together/modules/extract/extract_page.dart';
 import 'package:nlw_together/modules/home/home_controller.dart';
+import 'package:nlw_together/modules/meus_boletos/meus_boletos_page.dart';
+import 'package:nlw_together/shared/models/user_model.dart';
 import 'package:nlw_together/shared/themes/app_colors.dart';
 import 'package:nlw_together/shared/themes/app_text_styles.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  final UserModel user;
+  HomePage({Key? key, required this.user}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -14,12 +18,8 @@ class _HomePageState extends State<HomePage> {
   final controller = HomeController();
 
   final pages = [
-    Container(
-      color: Colors.red,
-    ),
-    Container(
-      color: Colors.blue,
-    )
+    MeusBoletosPage(key: UniqueKey(),),
+    ExtractPage(key: UniqueKey()),
   ];
 
   @override
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyles.titleRegular,
                     children: [
                       TextSpan(
-                        text: "Gabul",
+                        text: widget.user.name,
                         style: TextStyles.titleBoldBackground,
                       )
                     ]),
@@ -53,6 +53,9 @@ class _HomePageState extends State<HomePage> {
                 decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(5),
+                  image: DecorationImage(
+                    image: NetworkImage(widget.user.photoURL!),
+                  ),
                 ),
               ),
             ),
@@ -72,12 +75,15 @@ class _HomePageState extends State<HomePage> {
               },
               icon: Icon(
                 Icons.home,
-                color: AppColors.primary,
+                color: controller.currentPage == 0
+                    ? AppColors.primary
+                    : AppColors.body,
               ),
             ),
             InkWell(
-              onTap: () {
-                Navigator.pushReplacementNamed(context, "/barcode_scanner");
+              onTap: () async {
+                await Navigator.pushNamed(context, "/barcode_scanner");
+                setState(() {});
               },
               child: Container(
                 width: 56,
@@ -99,7 +105,9 @@ class _HomePageState extends State<HomePage> {
               },
               icon: Icon(
                 Icons.description_outlined,
-                color: AppColors.body,
+                color: controller.currentPage == 1
+                    ? AppColors.primary
+                    : AppColors.body,
               ),
             ),
           ],
