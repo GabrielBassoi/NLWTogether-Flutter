@@ -35,4 +35,9 @@ class AuthController {
       setUser(context, null);
     }
   }
+
+  Future<void> logOut() async {
+    final instance = await SharedPreferences.getInstance();
+    await instance.remove("user");
+  }
 }

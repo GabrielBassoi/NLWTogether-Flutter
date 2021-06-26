@@ -1,3 +1,4 @@
+import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
 import 'package:nlw_together/shared/models/boleto_model.dart';
 import 'package:nlw_together/shared/themes/app_colors.dart';
@@ -6,7 +7,7 @@ import 'package:nlw_together/shared/widgets/boleto_list/boleto_list_controller.d
 import 'package:nlw_together/shared/widgets/boleto_list/boleto_list_widget.dart';
 
 class ExtractPage extends StatefulWidget {
-  ExtractPage({Key? key}) : super(key: key);
+  const ExtractPage({Key? key}) : super(key: key);
 
   @override
   _ExtractPageState createState() => _ExtractPageState();
@@ -18,22 +19,28 @@ class _ExtractPageState extends State<ExtractPage> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-          child: Column(
+      child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Meus extratos",
-                  style: TextStyles.titleBoldHeading,
-                ),
-                ValueListenableBuilder<List<BoletoModel>>(
-                  valueListenable: controller.boletosNotifier,
-                  builder: (_, boletos, __) => Text("${boletos.length} ao total", style: TextStyles.captionBody,),
-                ),
-              ],
+          AnimatedCard(
+            direction: AnimatedCardDirection.right,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Meus extratos",
+                    style: TextStyles.titleBoldHeading,
+                  ),
+                  ValueListenableBuilder<List<BoletoModel>>(
+                    valueListenable: controller.boletosNotifier,
+                    builder: (_, boletos, __) => Text(
+                      "${boletos.length} pagos",
+                      style: TextStyles.captionBody,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Padding(

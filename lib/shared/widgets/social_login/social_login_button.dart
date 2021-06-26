@@ -5,7 +5,16 @@ import 'package:nlw_together/shared/themes/app_text_styles.dart';
 
 class SocialLoginButton extends StatelessWidget {
   final VoidCallback onTap;
-  const SocialLoginButton({Key? key, required this.onTap}) : super(key: key);
+  final String image;
+  final String text;
+  final IconData icon;
+  const SocialLoginButton({
+    Key? key,
+    required this.onTap,
+    this.image = "",
+    required this.text,
+    this.icon = Icons.ac_unit,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +36,9 @@ class SocialLoginButton extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(AppImages.google),
+                  image.isEmpty ? Icon(icon) : Image.asset(image),
                   SizedBox(
-                    width: 16,
+                    width: 16
                   ),
                   Container(
                     height: 56,
@@ -40,11 +49,11 @@ class SocialLoginButton extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 4,
+              flex: 3,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Entrar com Google", style: TextStyles.buttonGray),
+                  Text(text, style: TextStyles.buttonGray),
                 ],
               ),
             ),

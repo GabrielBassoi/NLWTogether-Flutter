@@ -21,7 +21,8 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
     controller.getAvailableCameras();
     controller.statusNotifier.addListener(() {
       if (controller.status.hasBarcode) {
-        Navigator.pushReplacementNamed(context, "/insert_boleto", arguments: controller.status.barcode);
+        Navigator.pushNamed(context, "/insert_boleto",
+            arguments: controller.status.barcode);
       }
     });
     super.initState();
@@ -36,10 +37,6 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      right: true,
-      top: true,
-      bottom: true,
-      left: true,
       child: Stack(
         children: [
           ValueListenableBuilder<BarcodeScannerStatus>(
@@ -67,7 +64,6 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
                 leading: BackButton(
                   color: AppColors.background,
                 ),
-                centerTitle: true,
               ),
               body: Column(
                 children: [
@@ -92,7 +88,7 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
               bottomNavigationBar: SetLabelButtons(
                 primaryLabel: "Inserir código do boleto",
                 primaryOnPressed: () {
-                  controller.status = BarcodeScannerStatus.error("Error");
+                  Navigator.pushNamed(context, "/insert_boleto");
                 },
                 secondaryLabel: "Adicionar da galeria",
                 secondaryOnPressed: controller.scanWithImagePicker,
@@ -109,7 +105,9 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
                     controller.scanWithCamera();
                   },
                   secondaryLabel: "Digitar código",
-                  secondaryOnPressed: () {},
+                  secondaryOnPressed: () {
+                    Navigator.pushNamed(context, "/insert_boleto");
+                  },
                   title: "Não foi possível identificar um código de barras.",
                   subtitle:
                       "Tente escanear novamente ou digite o código do seu boleto.",

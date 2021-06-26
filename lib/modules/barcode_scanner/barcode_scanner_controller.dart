@@ -35,29 +35,35 @@ class BarcodeScannerController {
     }
   }
 
-  Future<void> scannerBarCode(InputImage inputImage) async {
-    try {
-      final barcodes = await barcodeScanner.processImage(inputImage);
-      var barcode;
-      for (Barcode item in barcodes) {
-        barcode = item.value.displayValue;
-      }
+  Future<void> scannerBarCode(InputImage? inputImage) async {
+    if (inputImage != null) {
+      try {
+        final barcodes = await barcodeScanner.processImage(inputImage);
+        var barcode;
+        for (Barcode item in barcodes) {
+          barcode = item.value.displayValue;
+        }
 
-      if (barcode != null && status.barcode.isEmpty) {
-        status = BarcodeScannerStatus.barcode(barcode);
-        cameraController!.dispose();
-        await barcodeScanner.close();
-      }
+        if (barcode != null && status.barcode.isEmpty) {
+          status = BarcodeScannerStatus.barcode(barcode);
+          cameraController!.dispose();
+          await barcodeScanner.close();
+          //statusNotifier.dispose();
+        }
 
-      return;
-    } catch (e) {
-      print("ERRO DA LEITURA $e");
+        return;
+      } catch (e) {
+        print("ERRO DA LEITURA $e");
+      }
     }
   }
 
   void scanWithImagePicker() async {
     final response = await ImagePicker().getImage(source: ImageSource.gallery);
-    final inputImage = InputImage.fromFilePath(response!.path);
+    InputImage? inputImage;
+    if (response != null) {
+      inputImage = InputImage.fromFilePath(response.path);
+    }
     scannerBarCode(inputImage);
   }
 
