@@ -37,10 +37,11 @@ class InsertBoletoController {
     return;
   }
 
-  Future<void> cadastrarBoleto() async{
+  Future<void> cadastrarBoleto(BuildContext context) async{
     final form = formKey.currentState;
     if (form!.validate()) {
-      return await saveBoleto();
+      await saveBoleto();
+      Navigator.popUntil(context, ModalRoute.withName("/home"));
     }
   }
 }

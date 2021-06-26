@@ -6,6 +6,7 @@ import 'package:nlw_together/shared/models/user_model.dart';
 
 import 'modules/home/home_page.dart';
 import 'modules/insert_boleto/inser_boleto_page.dart';
+import 'modules/login/login_controller.dart';
 import 'modules/login/login_page.dart';
 import 'shared/themes/app_colors.dart';
 
@@ -16,6 +17,8 @@ class AppWidget extends StatelessWidget {
       DeviceOrientation.portraitUp,
     ]);
   }
+
+  final controller = LoginController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +32,10 @@ class AppWidget extends StatelessWidget {
       initialRoute: "/splash",
       routes: {
         "/splash": (context) => SplashPage(),
-        "/home": (context) => HomePage(user: ModalRoute.of(context)!.settings.arguments as UserModel),
-        "/login": (context) => LoginPage(),
+        "/home": (context) => HomePage(user: ModalRoute.of(context)!.settings.arguments as UserModel, controller: controller,),
+        "/login": (context) => LoginPage(controller: controller,),
         "/barcode_scanner": (context) => BarcodeScannerPage(),
-        "/insert_boleto": (context) => InsertBoletoPage(barcode: ModalRoute.of(context) != null ? ModalRoute.of(context)!.settings.arguments.toString() : null,),
+        "/insert_boleto": (context) => InsertBoletoPage(barcode: ModalRoute.of(context)!.settings.arguments != null ? ModalRoute.of(context)!.settings.arguments.toString() : null,),
       },
     );
   }

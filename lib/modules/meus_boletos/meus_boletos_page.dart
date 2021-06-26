@@ -24,38 +24,45 @@ class _MeusBoletosPageState extends State<MeusBoletosPage> {
         children: [
           Stack(
             children: [
-              Container(
-                color: AppColors.primary,
-                height: 40,
-                width: double.maxFinite,
+              AnimatedCard(
+                direction: AnimatedCardDirection.top,
+                child: Container(
+                  color: AppColors.primary,
+                  height: 40,
+                  width: double.maxFinite,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: ValueListenableBuilder<List<BoletoModel>>(
                   valueListenable: controller.boletosNotifier,
-                  builder: (_, boletos, __) =>
-                      AnimatedCard(direction: AnimatedCardDirection.left, child: BoletoInfoWidget(size: boletos.length)),
+                  builder: (_, boletos, __) => AnimatedCard(
+                      direction: AnimatedCardDirection.left,
+                      child: BoletoInfoWidget(size: boletos.length)),
                 ),
               ),
             ],
           ),
           Padding(
             padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Meus boletos",
-                  style: TextStyles.titleBoldHeading,
-                ),
-                ValueListenableBuilder<List<BoletoModel>>(
-                  valueListenable: controller.boletosNotifier,
-                  builder: (_, boletos, __) => Text(
-                    "${boletos.length} ao total",
-                    style: TextStyles.captionBody,
+            child: AnimatedCard(
+              direction: AnimatedCardDirection.left,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Meus boletos",
+                    style: TextStyles.titleBoldHeading,
                   ),
-                ),
-              ],
+                  ValueListenableBuilder<List<BoletoModel>>(
+                    valueListenable: controller.boletosNotifier,
+                    builder: (_, boletos, __) => Text(
+                      "${boletos.length} ao total",
+                      style: TextStyles.captionBody,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Padding(

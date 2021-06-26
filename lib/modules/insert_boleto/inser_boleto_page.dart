@@ -1,3 +1,4 @@
+import 'package:animated_card/animated_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -51,12 +52,15 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 93),
-                child: Text(
-                  "Preencha os dados do boleto",
-                  style: TextStyles.titleBoldHeading,
-                  textAlign: TextAlign.center,
+              AnimatedCard(
+                direction: AnimatedCardDirection.right,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 93),
+                  child: Text(
+                    "Preencha os dados do boleto",
+                    style: TextStyles.titleBoldHeading,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
               SizedBox(
@@ -66,42 +70,54 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
                 key: controller.formKey,
                 child: Column(
                   children: [
-                    InputTextWidget(
-                      label: "Nome do boleto",
-                      icon: Icons.description_outlined,
-                      onChanged: (value) {
-                        controller.onChange(name: value);
-                      },
-                      validator: controller.validateName,
+                    AnimatedCard(
+                      direction: AnimatedCardDirection.left,
+                      child: InputTextWidget(
+                        label: "Nome do boleto",
+                        icon: Icons.description_outlined,
+                        onChanged: (value) {
+                          controller.onChange(name: value);
+                        },
+                        validator: controller.validateName,
+                      ),
                     ),
-                    InputTextWidget(
-                      controller: dueDataInputTextController,
-                      label: "Vencimento",
-                      icon: FontAwesomeIcons.timesCircle,
-                      onChanged: (value) {
-                        controller.onChange(dueDate: value);
-                      },
-                      validator: controller.validateVencimento,
+                    AnimatedCard(
+                      direction: AnimatedCardDirection.right,
+                      child: InputTextWidget(
+                        controller: dueDataInputTextController,
+                        label: "Vencimento",
+                        icon: FontAwesomeIcons.timesCircle,
+                        onChanged: (value) {
+                          controller.onChange(dueDate: value);
+                        },
+                        validator: controller.validateVencimento,
+                      ),
                     ),
-                    InputTextWidget(
-                      controller: moneyInputTextController,
-                      label: "Valor",
-                      icon: FontAwesomeIcons.wallet,
-                      onChanged: (value) {
-                        controller.onChange(
-                            value: moneyInputTextController.numberValue);
-                      },
-                      validator: (_) => controller
-                          .validateValor(moneyInputTextController.numberValue),
+                    AnimatedCard(
+                      direction: AnimatedCardDirection.left,
+                      child: InputTextWidget(
+                        controller: moneyInputTextController,
+                        label: "Valor",
+                        icon: FontAwesomeIcons.wallet,
+                        onChanged: (value) {
+                          controller.onChange(
+                              value: moneyInputTextController.numberValue);
+                        },
+                        validator: (_) => controller.validateValor(
+                            moneyInputTextController.numberValue),
+                      ),
                     ),
-                    InputTextWidget(
-                      controller: barcodeInputTextController,
-                      label: "Código",
-                      icon: FontAwesomeIcons.barcode,
-                      onChanged: (value) {
-                        controller.onChange(barcode: value);
-                      },
-                      validator: controller.validateCodigo,
+                    AnimatedCard(
+                      direction: AnimatedCardDirection.right,
+                      child: InputTextWidget(
+                        controller: barcodeInputTextController,
+                        label: "Código",
+                        icon: FontAwesomeIcons.barcode,
+                        onChanged: (value) {
+                          controller.onChange(barcode: value);
+                        },
+                        validator: controller.validateCodigo,
+                      ),
                     ),
                   ],
                 ),
@@ -114,12 +130,12 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
         enableSecondaryColor: true,
         primaryLabel: "Cancelar",
         primaryOnPressed: () {
-          Navigator.pop(context);
+          Navigator.popUntil(context, ModalRoute.withName("/home"));
         },
         secondaryLabel: 'Cadastrar',
         secondaryOnPressed: () async {
-          await controller.cadastrarBoleto();
-          Navigator.pop(context);
+          
+          await controller.cadastrarBoleto(context);
         },
       ),
     );
