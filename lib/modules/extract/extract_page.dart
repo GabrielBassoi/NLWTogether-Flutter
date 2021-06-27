@@ -35,7 +35,7 @@ class _ExtractPageState extends State<ExtractPage> {
                   ValueListenableBuilder<List<BoletoModel>>(
                     valueListenable: controller.boletosNotifier,
                     builder: (_, boletos, __) => Text(
-                      "${controller.paidLenghtNotifier.value} pagos",
+                      "${controller.paidNotifier.value} pagos",
                       style: TextStyles.captionBody,
                     ),
                   ),
@@ -56,10 +56,14 @@ class _ExtractPageState extends State<ExtractPage> {
             child: BoletoListWidget(
               controller: controller,
               paid: true,
+              ss: sS,
             ),
           ),
         ],
       ),
     );
+  }
+  void sS() {
+    setState(() {});
   }
 }

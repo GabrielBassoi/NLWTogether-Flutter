@@ -7,48 +7,49 @@ class BoletoListController {
   List<BoletoModel> get boletos => boletosNotifier.value;
   set boletos(List<BoletoModel> value) => boletosNotifier.value = value;
 
-  final notPaidLenghtNotifier = ValueNotifier<int>(0);
-  int get getnotPaidLenght => notPaidLenghtNotifier.value;
-  set setnotPaidlenght(int value) => notPaidLenghtNotifier.value = value;
+  final notPaidNotifier = ValueNotifier<int>(0);
+  int get notPaid => notPaidNotifier.value;
+  set notPaid(int value) => notPaidNotifier.value = value;
 
-  final paidLenghtNotifier = ValueNotifier<int>(0);
-  int get getpaidlenght => paidLenghtNotifier.value;
-  set setpaidLenght(int value) => paidLenghtNotifier.value = value;
+  final paidNotifier = ValueNotifier<int>(0);
+  int get paid => paidNotifier.value;
+  set paid(int value) => paidNotifier.value = value;
 
   BoletoListController() {
     getBoletos();
   }
 
-  // int gettnotPaidLenght() {
-  //   int i = 0;
-  //   boletos.map((e) {
-  //     if (e.paid == false) {
-  //       i++;
-  //     }
-  //   });
-  //   notPaidLenghtNotifier.value = i;
-  //   return getnotPaidLenght;
-  // }
+  void getNotPaidLenght() {
+    int i = 0;
+    for (BoletoModel boleto in boletos) {
+      if (boleto.paid == false) {
+        i++;
+      }
+    }
+    notPaid = i;
+  }
 
-  // int gettPaidLenght() {
-  //   int i = 0;
-  //   boletos.map((e) {
-  //     if (e.paid == true) {
-  //       i++;
-  //     }
-  //   });
-  //   paidLenghtNotifier.value = i;
-  //   return getnotPaidLenght;
-  // }
+  void getPaidLenght() {
+    int i = 0;
+    for (BoletoModel boleto in boletos) {
+      if (boleto.paid == true) {
+        i++;
+      }
+    }
+    paid = i;
+  }
 
   Future<void> getBoletos() async {
     try {
       final instance = await SharedPreferences.getInstance();
       final response = instance.getStringList("boletos") ?? <String>[];
+      print(response);
       boletos = response.map((e) => BoletoModel.fromJson(e)).toList();
     } catch (e) {
       boletos = <BoletoModel>[];
     }
+    getNotPaidLenght();
+    getPaidLenght();
   }
 
   Future<void> deleteBoleto(int index) async {
@@ -58,6 +59,7 @@ class BoletoListController {
       boletoss.removeAt(index);
       boletos = boletoss.map((e) => BoletoModel.fromJson(e)).toList();
       await instance.setStringList("boletos", boletoss);
+      boletosNotifier.notifyListeners();
     } catch (e) {
       print(e);
     }
@@ -67,9 +69,9 @@ class BoletoListController {
     try {
       final instance = await SharedPreferences.getInstance();
       boletos[index].paid = paid;
-      boletosNotifier.notifyListeners();
       final boletoss = boletos.map((e) => e.toJson()).toList();
       await instance.setStringList("boletos", boletoss);
+      boletosNotifier.notifyListeners();
     } catch (e) {
       print(e);
     }

@@ -134,7 +134,6 @@ class _InsertBoletoPageState extends State<InsertBoletoPage> {
         },
         secondaryLabel: 'Cadastrar',
         secondaryOnPressed: () async {
-          
           await controller.cadastrarBoleto(context);
         },
       ),

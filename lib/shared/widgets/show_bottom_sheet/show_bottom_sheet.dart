@@ -5,7 +5,7 @@ import 'package:nlw_together/shared/themes/app_colors.dart';
 import 'package:nlw_together/shared/themes/app_text_styles.dart';
 
 void showBottomSheetWidget(BuildContext context, BoletoModel data, String text,
-    VoidCallback one, VoidCallback two) {
+    VoidCallback one, VoidCallback two, Function ss) {
   showModalBottomSheet(
     context: context,
     builder: (context) {
@@ -56,7 +56,9 @@ void showBottomSheetWidget(BuildContext context, BoletoModel data, String text,
                 ),
               ),
             ),
-            SizedBox(height: 15,),
+            SizedBox(
+              height: 15,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -89,7 +91,10 @@ void showBottomSheetWidget(BuildContext context, BoletoModel data, String text,
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: one,
+                    onTap: () {
+                      one();
+                      ss();
+                    },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 19),
                       decoration: BoxDecoration(
@@ -119,7 +124,10 @@ void showBottomSheetWidget(BuildContext context, BoletoModel data, String text,
             ),
             SizedBox(height: 13),
             InkWell(
-              onTap: two,
+              onTap: () {
+                two();
+                ss();
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -9,12 +9,14 @@ class BoletoTileWidget extends StatelessWidget {
   final BoletoModel data;
   final BoletoListController controller;
   final int index;
+  final Function ss;
 
   const BoletoTileWidget({
     Key? key,
     required this.data,
     required this.index,
     required this.controller,
+    required this.ss,
   }) : super(key: key);
 
   @override
@@ -28,17 +30,20 @@ class BoletoTileWidget extends StatelessWidget {
             context,
             data,
             data.paid! ? " não foi" : " foi",
-            data.paid! ? () {
-              controller.setBoletIsPaid(index, false);
-              Navigator.pop(context);
-            } : () {
-              controller.setBoletIsPaid(index, true);
-              Navigator.pop(context);
-            },
+            data.paid!
+                ? () {
+                    controller.setBoletIsPaid(index, false);
+                    Navigator.pop(context);
+                  }
+                : () {
+                    controller.setBoletIsPaid(index, true);
+                    Navigator.pop(context);
+                  },
             () {
               controller.deleteBoleto(index);
               Navigator.pop(context);
             },
+            ss,
           );
         },
         contentPadding: EdgeInsets.zero,
@@ -46,10 +51,12 @@ class BoletoTileWidget extends StatelessWidget {
           data.name!,
           style: TextStyles.titleListTile,
         ),
-        subtitle: data.paid! ? null : Text(
-          "Vence em ${data.dueDate}",
-          style: TextStyles.captionBody,
-        ),
+        subtitle: data.paid!
+            ? null
+            : Text(
+                "Vence em ${data.dueDate}",
+                style: TextStyles.captionBody,
+              ),
         trailing: Text.rich(TextSpan(
           text: "R\$ ",
           style: TextStyles.trailingRegular,

@@ -6,6 +6,7 @@ import 'package:nlw_together/shared/themes/app_text_styles.dart';
 import 'package:nlw_together/shared/widgets/boleto_info/boleto_info_widget.dart';
 import 'package:nlw_together/shared/widgets/boleto_list/boleto_list_controller.dart';
 import 'package:nlw_together/shared/widgets/boleto_list/boleto_list_widget.dart';
+import 'package:nlw_together/shared/widgets/empty_list/empty_list.dart';
 
 class MeusBoletosPage extends StatefulWidget {
   MeusBoletosPage({Key? key}) : super(key: key);
@@ -56,10 +57,10 @@ class _MeusBoletosPageState extends State<MeusBoletosPage> {
                       "Meus boletos",
                       style: TextStyles.titleBoldHeading,
                     ),
-                    ValueListenableBuilder<List<BoletoModel>>(
-                      valueListenable: controller.boletosNotifier,
-                      builder: (_, boletos, __) => Text(
-                        "${controller.notPaidLenghtNotifier.value} ao total para pagar",
+                    ValueListenableBuilder<int>(
+                      valueListenable: controller.notPaidNotifier,
+                      builder: (_, v, __) => Text(
+                        "${controller.notPaid} ao total para pagar",
                         style: TextStyles.captionBody,
                       ),
                     ),
@@ -75,16 +76,29 @@ class _MeusBoletosPageState extends State<MeusBoletosPage> {
                 color: AppColors.stroke,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: BoletoListWidget(
-                controller: controller,
-                paid: false,
-              ),
-            ),
+            ValueListenableBuilder(
+              valueListenable: controller.boletosNotifier,
+              builder: (_, ___, __) {
+                if (controller.notPaid == 0) {
+                  return EmptyList();
+                }
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: BoletoListWidget(
+                    controller: controller,
+                    paid: false,
+                    ss: sS,
+                  ),
+                );
+              },
+            )
           ],
         ),
       ],
     );
+  }
+
+  void sS() {
+    setState(() {});
   }
 }
