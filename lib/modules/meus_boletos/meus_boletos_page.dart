@@ -19,69 +19,72 @@ class _MeusBoletosPageState extends State<MeusBoletosPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              AnimatedCard(
-                direction: AnimatedCardDirection.top,
-                child: Container(
-                  color: AppColors.primary,
-                  height: 40,
-                  width: double.maxFinite,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: ValueListenableBuilder<List<BoletoModel>>(
-                  valueListenable: controller.boletosNotifier,
-                  builder: (_, boletos, __) => AnimatedCard(
-                      direction: AnimatedCardDirection.left,
-                      child: BoletoInfoWidget(size: boletos.length)),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
-            child: AnimatedCard(
-              direction: AnimatedCardDirection.left,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Meus boletos",
-                    style: TextStyles.titleBoldHeading,
+    return ListView(
+      shrinkWrap: true,
+      children: [
+        Column(
+          children: [
+            Stack(
+              children: [
+                AnimatedCard(
+                  direction: AnimatedCardDirection.top,
+                  child: Container(
+                    color: AppColors.primary,
+                    height: 40,
+                    width: double.maxFinite,
                   ),
-                  ValueListenableBuilder<List<BoletoModel>>(
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: ValueListenableBuilder<List<BoletoModel>>(
                     valueListenable: controller.boletosNotifier,
-                    builder: (_, boletos, __) => Text(
-                      "${controller.notPaidLenghtNotifier.value} ao total",
-                      style: TextStyles.captionBody,
-                    ),
+                    builder: (_, boletos, __) => AnimatedCard(
+                        direction: AnimatedCardDirection.left,
+                        child: BoletoInfoWidget(size: boletos.length)),
                   ),
-                ],
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+              child: AnimatedCard(
+                direction: AnimatedCardDirection.left,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Meus boletos",
+                      style: TextStyles.titleBoldHeading,
+                    ),
+                    ValueListenableBuilder<List<BoletoModel>>(
+                      valueListenable: controller.boletosNotifier,
+                      builder: (_, boletos, __) => Text(
+                        "${controller.notPaidLenghtNotifier.value} ao total para pagar",
+                        style: TextStyles.captionBody,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-            child: Divider(
-              thickness: 1,
-              height: 1,
-              color: AppColors.stroke,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+              child: Divider(
+                thickness: 1,
+                height: 1,
+                color: AppColors.stroke,
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: BoletoListWidget(
-              controller: controller,
-              paid: false,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: BoletoListWidget(
+                controller: controller,
+                paid: false,
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      ],
     );
   }
 }

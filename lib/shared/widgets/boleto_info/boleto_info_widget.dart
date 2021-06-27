@@ -3,10 +3,15 @@ import 'package:nlw_together/shared/themes/app_colors.dart';
 import 'package:nlw_together/shared/themes/app_images.dart';
 import 'package:nlw_together/shared/themes/app_text_styles.dart';
 
-class BoletoInfoWidget extends StatelessWidget {
+class BoletoInfoWidget extends StatefulWidget {
   final int size;
   const BoletoInfoWidget({Key? key, required this.size}) : super(key: key);
 
+  @override
+  _BoletoInfoWidgetState createState() => _BoletoInfoWidgetState();
+}
+
+class _BoletoInfoWidgetState extends State<BoletoInfoWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,11 +40,11 @@ class BoletoInfoWidget extends StatelessWidget {
               style: TextStyles.captionBackground,
               children: [
                 TextSpan(
-                  text: "$size boletos\n",
+                  text: "${widget.size} boletos\n",
                   style: TextStyles.captionBoldBackground,
                 ),
                 TextSpan(
-                  text: "cadastrados para pagar",
+                  text: "cadastrados",
                   style: TextStyles.captionBackground,
                 ),
               ],

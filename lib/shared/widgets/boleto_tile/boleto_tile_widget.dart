@@ -27,7 +27,7 @@ class BoletoTileWidget extends StatelessWidget {
           showBottomSheetWidget(
             context,
             data,
-            "foi",
+            data.paid! ? " não foi" : " foi",
             data.paid! ? () {
               controller.setBoletIsPaid(index, false);
               Navigator.pop(context);
