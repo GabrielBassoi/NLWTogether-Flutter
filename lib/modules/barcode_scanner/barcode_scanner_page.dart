@@ -30,8 +30,8 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
 
   @override
   void dispose() {
-    controller.dispose();
     super.dispose();
+    controller.dispose();
   }
 
   @override
@@ -44,7 +44,6 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
               builder: (_, status, __) {
                 if (status.showCamera) {
                   return Container(
-                    color: Colors.blue,
                     child: controller.cameraController!.buildPreview(),
                   );
                 } else {

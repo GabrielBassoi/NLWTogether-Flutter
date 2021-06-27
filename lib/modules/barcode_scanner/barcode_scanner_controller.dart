@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,8 @@ class BarcodeScannerController {
   CameraController? cameraController;
 
   InputImage? imagePicker;
+
+  Timer? delay;
 
   void getAvailableCameras() async {
     try {
@@ -69,7 +73,7 @@ class BarcodeScannerController {
 
   void scanWithCamera() {
     status = BarcodeScannerStatus.available();
-    Future.delayed(Duration(seconds: 20)).then((value) {
+    delay = Timer(Duration(seconds: 20), () {
       if (status.hasBarcode == false)
         status = BarcodeScannerStatus.error("Timeout de leitura de boleto");
     });
@@ -84,9 +88,11 @@ class BarcodeScannerController {
             for (Plane plane in cameraImage.planes) {
               allBytes.putUint8List(plane.bytes);
             }
-            final bytes = allBytes.done().buffer.asUint8List();
+            final bytes = cameraImage.planes[0].bytes;
             final Size imageSize = Size(
-                cameraImage.width.toDouble(), cameraImage.height.toDouble());
+              cameraImage.width.toDouble(),
+              cameraImage.height.toDouble(),
+            );
             final InputImageRotation imageRotation =
                 InputImageRotation.Rotation_0deg;
             final InputImageFormat inputImageFormat =
@@ -119,10 +125,9 @@ class BarcodeScannerController {
   }
 
   void dispose() {
+    delay!.cancel();
     statusNotifier.dispose();
     barcodeScanner.close();
-    if (status.showCamera) {
-      cameraController!.dispose();
-    }
+    cameraController!.dispose();
   }
 }
