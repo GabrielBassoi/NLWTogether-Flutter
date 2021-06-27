@@ -37,7 +37,7 @@ class InsertBoletoController {
     return;
   }
 
-  Future<void> cadastrarBoleto(BuildContext context) async{
+  Future<void> cadastrarBoleto(BuildContext context) async {
     final form = formKey.currentState;
     if (form!.validate()) {
       await saveBoleto();

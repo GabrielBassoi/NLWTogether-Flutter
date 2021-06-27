@@ -35,7 +35,7 @@ class _ExtractPageState extends State<ExtractPage> {
                   ValueListenableBuilder<List<BoletoModel>>(
                     valueListenable: controller.boletosNotifier,
                     builder: (_, boletos, __) => Text(
-                      "${boletos.length} pagos",
+                      "${controller.paidLenghtNotifier.value} pagos",
                       style: TextStyles.captionBody,
                     ),
                   ),
@@ -55,6 +55,7 @@ class _ExtractPageState extends State<ExtractPage> {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: BoletoListWidget(
               controller: controller,
+              paid: true,
             ),
           ),
         ],
