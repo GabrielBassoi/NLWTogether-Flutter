@@ -57,7 +57,7 @@ class _MeusBoletosPageState extends State<MeusBoletosPage> {
                   ValueListenableBuilder<List<BoletoModel>>(
                     valueListenable: controller.boletosNotifier,
                     builder: (_, boletos, __) => Text(
-                      "${boletos.length} ao total",
+                      "${controller.notPaidLenghtNotifier.value} ao total",
                       style: TextStyles.captionBody,
                     ),
                   ),
@@ -77,6 +77,7 @@ class _MeusBoletosPageState extends State<MeusBoletosPage> {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: BoletoListWidget(
               controller: controller,
+              paid: false,
             ),
           ),
         ],
